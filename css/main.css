@@ -1,0 +1,102 @@
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background: transparent linear-gradient(180deg, rgba(18,28,112,1) 0%, rgba(0,21,26,1) 100%) 0% 0% no-repeat padding-box;
+    margin: 0px;
+}
+
+#logo {
+    width: 40%;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    margin: 0;
+
+}
+
+.login-fieldset {
+    border: none;
+    margin: 0;
+}
+
+input {
+    padding-left: 6px;
+    font-size: 1.0em;
+    outline: none;
+    width: 80%;
+    height: 2.4em;
+    margin: 0.5em;
+    border: none;
+
+}
+
+.input-text {
+    border-radius: 16px;
+    border: 1px solid #2699fb;
+}
+
+.button {
+    background: rgb(38, 153, 251);
+    box-shadow: 0px 3px 6px black;
+    border: none;
+    color: white;
+}
+
+.button:hover {
+    background-color: rgb(71, 170, 250);
+}
+.container {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 25% 0 25%;
+    width: 50%;
+    text-align: center;
+}
+
+hr {
+    width: 40%;
+    background-color: white;
+}
+
+.help-text {
+    margin: 0.3em;
+    text-decoration: none;
+}
+
+.help-text > a {
+    color: #2699fb;
+    text-decoration: none;
+}
+
+.help-text > a:hover {
+    color: rgb(140, 202, 253);
+    text-decoration: none;
+}
+
+@media only screen and (max-device-width: 420px) {
+    .container {
+        width: 80%;
+        margin: 0 10% 0 10%;
+    }
+    #logo {
+        width: 64%;
+    }
+    .login-form {
+        width: 80%;
+    }
+    * {
+        font-size: 36px;
+    }
+}
