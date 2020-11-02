@@ -8,6 +8,7 @@ body {
 
 #logo {
     width: 40%;
+	
 }
 
 .login-form {
@@ -37,7 +38,7 @@ input {
 }
 
 .input-text {
-    border-radius: 16px;
+    border-radius: 2em;
     border: 1px solid #2699fb;
 }
 
