@@ -17,7 +17,7 @@
 		<th>
 			
 			<div class="item">
-				<span class="q5 name">Sadzmourne</span> <br>
+				<span class="q5 name">Q5 Weapon</span> <br>
 				
 				<span class="ilvl">Item Level <span id="ilvlvalue">272</span></span> <br>
 				<span id="boe">Binds when pick up</span> <br>
