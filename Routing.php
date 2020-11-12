@@ -16,7 +16,11 @@ class Router {
 		if ($action == '') $action = 'index';
 
 		if (!array_key_exists($action, self::$routes)) {
-			die("Wrong url! [".$action."]");
+			
+			$object = new DefaultController;
+			$object->error404();	
+			die();
+			//die("Wrong url! [".$action."]");
 		}
 
 		$controller = self::$routes[$action];

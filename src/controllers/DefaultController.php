@@ -18,4 +18,9 @@ class DefaultController extends AppController {
     {
         $this->render('register');
     }
+	
+	public function error404()
+    {
+        $this->render('404');
+    }
 }
