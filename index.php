@@ -1,22 +1,14 @@
-<!DOCTYPE HTML>
-<head>
-    <link type="text/css" rel="stylesheet" href="css/main.css">
-</head>
+<?php
 
-<body>
-    <div class="container">
-        <embed id="logo"     src="img/Squadza.svg"/>
-        <form class="login-form" action="login.php" method="POST">
+require 'Routing.php';
 
-                    <input class="input-text" type="text"     name="email"    placeholder="email">
-                    <input class="input-text" type="password" name="password" placeholder="passsword" autocomplete="off">
+$path = trim($_SERVER['REQUEST_URI'], '/');
+$path = parse_url( $path, PHP_URL_PATH);
 
-                    <input class="button" type="submit" value="LOGIN" name="Login"></p>
-                    <input type="hidden" name="user_token" value="<?php echo $CSRF_TOKEN; ?>">  
-        </form>
-        <hr>
-        <span class="help-text"> <a href="TODO.php">Register account.</a> </span>
-        <span class="help-text"> <a href="TODO.php">Can't log in?</a> </span>
+Router::get('/', 'DefaultController');
+Router::get('index', 'DefaultController');
+Router::get('login', 'DefaultController');
+Router::get('register', 'DefaultController');
 
-    </div>
-</body>
+Router::run($path);
+
