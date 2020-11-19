@@ -1,6 +1,7 @@
 <?php
 
 require_once 'src/controllers/DefaultController.php';
+require_once 'src/controllers/SecurityController.php';
 
 class Router {
 
@@ -10,15 +11,18 @@ class Router {
 		self::$routes[$url] = $view;
 	}
 
+	public static function post($url, $view) {
+		self::$routes[$url] = $view;
+	}
+	
 	public static function run ($url) {
+
 		$action = explode("/", $url)[0];
 		
-		if ($action == '') $action = 'index';
-
 		if (!array_key_exists($action, self::$routes)) {
 			
 			$object = new DefaultController;
-			$object->error404();	
+			$object->error404();
 			die();
 			//die("Wrong url! [".$action."]");
 		}
@@ -26,7 +30,7 @@ class Router {
 		$controller = self::$routes[$action];
 		$object = new $controller;
 		$action = $action ? : 'index';
-
+		
 		$object->$action();
 	}
 }

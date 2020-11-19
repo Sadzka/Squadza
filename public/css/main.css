@@ -100,3 +100,7 @@ hr {
         font-size: 36px;
     }
 }
+
+.messages {
+	color: red;
+}
