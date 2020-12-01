@@ -33,7 +33,7 @@ class AppController {
         }
 		else {
 			ob_start();
-            include 'public/views/404.html';
+            include 'public/views/404.php';
             $output = ob_get_clean();
 		}
         print $output;

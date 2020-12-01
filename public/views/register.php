@@ -9,6 +9,7 @@
         <form class="login-form" action="login.php" method="POST">
 
                     <input class="input-text" type="text"     name="email"     placeholder="email">
+                    <input class="input-text" type="text"     name="username"  placeholder="username">
                     <input class="input-text" type="password" name="password"  placeholder="passsword" autocomplete="off">
                     <input class="input-text" type="password" name="passwordC" placeholder="confirm passsword" autocomplete="off">
 
