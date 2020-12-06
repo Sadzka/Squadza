@@ -1,3 +1,7 @@
+public/uploads/
+config.php
+
+
 # ignore all files starting with . or ~
 .*
 ~*

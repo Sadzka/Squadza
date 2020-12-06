@@ -3,21 +3,21 @@
 class User {
     private $email;
     private $password;
-    private $name;
+    private $username;
 
     public function __construct(
         string $email,
         string $password,
-        string $name
+        string $username
     ) {
         $this->email = $email;
+        $this->username = $username;
         $this->password = $password;
-        $this->name = $name;
     }
 	
-    public function getName(): string 
+    public function getUsername(): string 
     {
-        return $this->name;
+        return $this->username;
     }
 	
     public function getEmail(): string 
