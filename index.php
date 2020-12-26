@@ -13,4 +13,6 @@ Router::post('register', 'SecurityController');
 	
 Router::post('profile', 'SecurityController');
 
+Router::get('item', 'ItemController');
+
 Router::run($path);

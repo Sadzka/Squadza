@@ -20,7 +20,7 @@ body > table.tooltip.icon > tbody > tr > th > div > img {
 
 .tooltip th {
 	padding: 3px;
-	background: url(public/img/tooltip.png);
+	background: url(../img/tooltip.png);
     text-align: left;
 }
 
