@@ -5,12 +5,10 @@
 
 <body>	
 		
-	<header>
-		<embed class="logoheader" src="public/img/Squadza.svg"/>
-		<input class="searchheader" name="search">
-		<a class="buttonheader" href="login"> SIGN UP </a>
-		<a class="buttonheader" href="login"> LOGI IN </a>
-	</header>
+	<?php
+		include_once(__DIR__ . "/../../src/common/header.php");
+		include_once(__DIR__ . "/../../src/common/menu.php");
+	?>
 
 	<h1>AVATAR</h1>
 	<?php
