@@ -17,7 +17,7 @@
 		<div class="messages">
 		<?php
 		echo isset($messages);
-			if(isset($messages)){
+			if(isset($messages)) {
 				foreach($messages as $message) {
 					echo $message;
 				}

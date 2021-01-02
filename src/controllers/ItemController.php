@@ -14,22 +14,20 @@ class ItemController extends AppController {
         $itemRepository = ItemRepository::getInstance();
 
         $item = null;
-        if (isset($_GET['name']))
-        {
-            $item = $itemRepository->getItem($_GET['name'], '');
+        if (isset($_GET['id'])) {
+            $item = $itemRepository->getItem($_GET['id']);
+        
+            if ($item == null) {
+                $this->render('item', ['item'=>'notfound'] );
+                return;
+            }    
         }
-        else if (isset($_GET['id']))
-        {
-            $item = $itemRepository->getItem('', $_GET['id']);
+        else if (isset($_GET['search'])) {
+            $items = $itemRepository->searchItems($_GET, 0);
+            $this->render('item', ['items'=>$items] );
         }
         else {
             $this->render('item');
-            return;
-        }
-        
-        if ($item == null)
-        {
-            $this->render('item', ['item'=>'notfound'] );
             return;
         }
 

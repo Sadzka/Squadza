@@ -1,7 +1,7 @@
 <div class="menu-container">
     <ol class="menu-ol">
         <li>
-            <a href=" "><span class="menu-li">News</span></a>
+            <a href="index"><span class="menu-li">News</span></a>
             <ul>
             </ul>
         </li>

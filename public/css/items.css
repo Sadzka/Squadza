@@ -6,7 +6,7 @@ body {
 
 /*** Tooltip ***/
 .itemtooltip {
-	width: 100vw;
+	margin-top: 2em;
 }
 .tooltip {
 	border-spacing: 0;
@@ -90,7 +90,12 @@ body > table.tooltip.icon > tbody > tr > th > div > img {
 .q7	{ color: #ff0000; }
 .q8	{ color: #00ffff; }
 
-
+a .q0 {
+	text-decoration: none;
+}
+a .q5 {
+	text-decoration: none;
+}
 /*** Gold ***/
 .moneys {
 	display: flex;
