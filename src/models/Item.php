@@ -2,6 +2,7 @@
 
 class Item
 {
+	private $icon;
     private $quality;
     private $name;
     private $itemLevel;
@@ -18,6 +19,7 @@ class Item
     private $sellPrice;
     
     function __construct(
+		$icon,
         $quality,
         $name,
         $itemLevel,
@@ -33,6 +35,7 @@ class Item
         $requiredLevel,
         $sellPrice)
     {
+        $this->icon          	= $icon;
         $this->quality          = $quality;
         $this->name             = $name;
         $this->itemLevel        = $itemLevel;
@@ -159,5 +162,13 @@ class Item
 
 	function setSocketBonus($socketBonus) {  
 		$this->socketBonus = $socketBonus; 
+	} 
+
+	function getIcon() { 
+ 		return $this->icon; 
+	} 
+
+	function setIcon($icon) {  
+		$this->icon = $icon; 
 	} 
 }

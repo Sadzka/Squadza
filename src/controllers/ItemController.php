@@ -8,6 +8,7 @@ class ItemController extends AppController {
     public function item()
     {
         if (!$this->isGet()) {
+            echo "isGet<br>";
             //TODO
         }
         $itemRepository = ItemRepository::getInstance();
@@ -21,11 +22,15 @@ class ItemController extends AppController {
         {
             $item = $itemRepository->getItem('', $_GET['id']);
         }
+        else {
+            $this->render('item');
+            return;
+        }
         
         if ($item == null)
         {
-            echo "null <br>";
-            die('erorr');
+            $this->render('item', ['item'=>'notfound'] );
+            return;
         }
 
         $this->render('item', ['item'=>$item] );

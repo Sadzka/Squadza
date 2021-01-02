@@ -32,6 +32,7 @@ body > table.tooltip.icon > tbody > tr > th > div > img {
 	padding: 5px 4px 0px 5px;
 	width: 32em;
 	color: white;
+	font-weight: 400;
 }
 
 .alignright { float: right; }
