@@ -6,6 +6,7 @@ html {
     -o-background-size: cover;
     background-size: cover;
 }
+
 body {
     font: 14px open sans,Arial,helvetica neue,Helvetica,sans-serif;
     width: 100vw;
@@ -396,13 +397,15 @@ header {
 }
  
 .search-line ::-webkit-scrollbar-track {
+    box-shadow: none;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
     border-radius: 10px;
 }
  
 .search-line ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
+    box-shadow: none;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    border-radius: 10px;
 }
 
 .search-input-options {
