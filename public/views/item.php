@@ -4,6 +4,8 @@
 	<title>Arikazike</title>
 	<link rel="stylesheet" href="public/css/items.css">
 	<link type="text/css" rel="stylesheet" href="public/css/main.css">
+
+	<script type="text/javascript" src="./public/js/search.js" defer></script>
 </head>
 
 <body>
@@ -14,27 +16,27 @@
 	?>
 
 	<div class="search-item-tooltip-container">
+		<?php include_once(__DIR__ . "/../../src/common/searchItem.php"); ?>
+		<div class="itemtooltip"> </div>
+	</div>
 
-	<?php include_once(__DIR__ . "/../../src/common/searchItem.php"); ?>
-
-	<?php
-		if (!isset($_GET['search']))
-		{
-			if (isset($item)) {
-				if ($item != 'notfound') {
-					include_once (__DIR__ . '/../../src/common/renderItem.php');
-				}
-			}
-		}
-	?>
-	
+	<div class="search-result-container">
+		<table>
+			<tr>
+				<th><span>Name</span></th>
+				<th>Item Level</th> 
+				<th>Required Level</th> 
+				<th>Slot</th>
+				<th>Type</th>
+			</tr>
+		</table>
 	</div>
 
 	<?php
-
+/*
 	if (isset($items) && $items != 'notfound') {
 
-		echo '<div class="search-result-container">';
+		echo '';
 
 		$i = 0;
 		foreach ($items as $item) {
@@ -54,6 +56,23 @@
 
 		echo '</div>';
 	}
-
+*/
 	?>
 </body>
+
+<template id="item-template">
+	<tr>
+		<th>
+			<a href="#" class="itemref">
+				<span>
+					Name
+				</span>
+			</a>
+		</th>
+
+		<th id="ilv">Item Level</th> 
+		<th id="rlv">Required Level</th> 
+		<th id="slot">Slot</th>
+		<th id="type">Type</th>
+	</tr>
+</template>

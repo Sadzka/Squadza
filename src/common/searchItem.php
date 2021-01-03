@@ -1,4 +1,4 @@
-<form class="search-form" action="/item" method="GET">
+<form class="search-form">
     <span class="search-title">Search Items</span><br><br>
     
     <div class="search-line">
@@ -60,12 +60,6 @@
         </select>
     </div>
     <input type="hidden" value="search" name="search">
-    <input class="serach-input-submit" type="submit" value="Search">
     
-    <?php
-    if (isset($items) && $items == 'notfound') {
-        echo "Your criteria did not match any items.";
-    }
-    ?>
-
+    <button class="serach-input-submit"> Search </button>
 </form>

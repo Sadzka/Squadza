@@ -7,6 +7,7 @@ html {
     background-size: cover;
 }
 body {
+    font: 14px open sans,Arial,helvetica neue,Helvetica,sans-serif;
     width: 100vw;
     background: transparent linear-gradient(180deg, rgba(18,28,112,1) 0%, rgba(0,21,26,1) 100%) 0% 0% fixed;
     margin: 0px;
@@ -195,9 +196,11 @@ header {
 
 /* MENU */
 .menu-container {
-    padding: 0.25em 3em 0.25em 3em;
+    padding: 0.25em 2em 0.25em 2em;
     display: flex;
     background-color: rgb(3, 30, 60);
+    align-items: center;
+    justify-content: center;;
 }
 
 .menu-ol {
@@ -205,7 +208,6 @@ header {
     list-style-type: none;
     padding: 0;
     margin: 0.5em;
-    font-size: 15px;
     height: 2em;
     line-height: 2em;
     text-align: center;
@@ -223,7 +225,8 @@ header {
 
 .menu-ol > li {
     float: left;
-    padding: 0 1em;
+    padding: 0 0.25em;
+    white-space: nowrap;
     width: 150px;
     margin-left: 1px;
     /*background-color: rgb(28, 100, 193);*/
@@ -379,7 +382,11 @@ header {
 
 .serach-input-submit {
     cursor: pointer;
+    margin: 1em 0;
     width: 8em;
+    height: 3em;
+    font-weight: 600;
+    color: white;
     background: #2699FB;
     border: 1px solid black;
     border-radius: 12px;
@@ -421,23 +428,20 @@ header {
 }
 
 .search-result-container {
-    margin: 2em 2em 0 2em;
+    margin: 2em 2em 10em 2em;
     display: inline-block;
 }
 
-.search-result-item {
-    padding: 1em;
-    display: flex;
+.search-result-container table {
+    background-color: #062d56;
+}
+.search-result-container table tr th{
+    width: 180px;
+    padding: 0.5em;
+    text-overflow: ellipsis;
+    border: 1px solid black;
 }
 
-.result-odd {
-    background-color: #031E3C;
-
-}
-
-.result-even {
-    background-color: #062a49;
-}
 /* Mobile */
 @media only screen and (max-device-width: 420px) {
     .container {
@@ -496,6 +500,9 @@ header {
     .search-item-tooltip-container {
         display: block;
     }
+    .menu-ol > li {
+        width: auto;
+    }
 }
 
 .messages {
@@ -504,8 +511,4 @@ header {
 
 a {
     text-decoration: none;
-}
-
-body {
-    font: 14px open sans,Arial,helvetica neue,Helvetica,sans-serif;
 }

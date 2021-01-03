@@ -8,29 +8,38 @@ class ItemController extends AppController {
     public function item()
     {
         if (!$this->isGet()) {
-            echo "isGet<br>";
+            return;
             //TODO
         }
-        $itemRepository = ItemRepository::getInstance();
+        $this->render('item');
+    }
 
-        $item = null;
-        if (isset($_GET['id'])) {
-            $item = $itemRepository->getItem($_GET['id']);
-        
-            if ($item == null) {
-                $this->render('item', ['item'=>'notfound'] );
-                return;
-            }    
-        }
-        else if (isset($_GET['search'])) {
-            $items = $itemRepository->searchItems($_GET, 0);
-            $this->render('item', ['items'=>$items] );
-        }
-        else {
-            $this->render('item');
-            return;
-        }
+    public function itemSearch()
+    {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
-        $this->render('item', ['item'=>$item] );
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            header('Content-type: application/json');
+            http_response_code(200);
+
+            echo json_encode(ItemRepository::getInstance()->searchItems($decoded));
+        }
+    }
+
+    public function itemRender()
+    {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            $item = ItemRepository::getInstance()->getItem($decoded['id']);
+
+            echo include_once(__DIR__ . '/../common/renderItem.php');
+        }
     }
 }

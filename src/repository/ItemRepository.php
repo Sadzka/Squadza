@@ -75,7 +75,7 @@ class ItemRepository extends Repository
         */  
 	}
 
-    public function searchItems($args, $page) {
+    public function searchItems($args) {
 
         if (!isset($args['name'])) {
             $args['name'] = '';
@@ -94,7 +94,7 @@ class ItemRepository extends Repository
         }
         $args['name'] = '%' . $args['name'] . '%';
 
-        $ask = "SELECT `name`, `quality`, `items_id` FROM items
+        $ask = "SELECT `name`, `quality`, `items_id`, `item_level`, `required_level`, `slot`, `equip_type` FROM items
         WHERE
         `name` like :name
         AND
@@ -104,7 +104,7 @@ class ItemRepository extends Repository
         ";
 
         $length_slots = 0;
-        if (isset($args['slot']))
+        if (isset($args['slot']) && count($args['slot']) > 0)
         {
             $length_slots = count($args['slot']);
             $ask = $ask . " AND ( slot = :slot0 ";
@@ -116,7 +116,7 @@ class ItemRepository extends Repository
         }
 
         $length_rarity = 0;
-        if (isset($args['rarity']))
+        if (isset($args['rarity']) && count($args['rarity']) > 0)
         {
             $length_rarity = count($args['rarity']);
             $ask = $ask . " AND ( quality = :quality0 ";
@@ -127,16 +127,21 @@ class ItemRepository extends Repository
             $ask = $ask . " ) ";
         }
 
-        //echo '<br>' . $ask . '<br>';
-
         $stmt = $this->database->connect()->prepare($ask);
-
+        /*
+                echo $ask . '<br>';
+                echo $args['name'] . '<br>';
+                echo $args['ilvmin'] . '<br>';
+                echo $args['ilvmax'] . '<br>';
+                echo $args['reqlvmin'] . '<br>';
+                echo $args['reqlvmax'] . '<br>';
+        */
         $stmt->bindParam(':name',       $args['name'],      PDO::PARAM_STR);
         $stmt->bindParam(':ilvmin',     $args['ilvmin'],    PDO::PARAM_STR);
         $stmt->bindParam(':ilvmax',     $args['ilvmax'],    PDO::PARAM_STR);
         $stmt->bindParam(':reqlvmin',   $args['reqlvmin'],  PDO::PARAM_STR);
         $stmt->bindParam(':reqlvmax',   $args['reqlvmax'],  PDO::PARAM_STR);
-
+        
         for ($i = 0; $i < $length_slots; $i++) {
             $stmt->bindParam(':slot' . $i,       $args['slot'][$i],      PDO::PARAM_STR);
         }
@@ -145,15 +150,7 @@ class ItemRepository extends Repository
         }
 
         $stmt->execute();
-        
-        $items = [];
-        while($row = $stmt->fetch(PDO::FETCH_ASSOC))
-        {
-            array_push($items, $row);
-        }
 
-        if (!$items) return 'notfound';
-        return $items;
-
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
