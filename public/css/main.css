@@ -51,6 +51,12 @@ input {
 .input-text {
     border-radius: 0.5em;
     border: 1px solid #2699fb;
+}   
+
+.no-valid {
+    border: 2px solid red !important; 
+    box-shadow: 0 0 0.2em red;
+    outline: none;
 }
 
 .button {
@@ -196,6 +202,10 @@ header {
 }
 
 /* MENU */
+.menu-ol-header > li > ul > li {
+    background-color: #0F1973 !important;
+}
+
 .menu-container {
     padding: 0.25em 2em 0.25em 2em;
     display: flex;
@@ -259,12 +269,6 @@ header {
     background-color: rgb(3, 30, 60);
     border: 1px solid black;
     /* background-color:#EEE; */
-}
-
-
-.menu-ol > li > ul > li:hover {
-    /*background-color:#DDD;*/
-    color: #1477d7;
 }
 
 .menu-ol > li > ul > li:hover > a {
@@ -432,17 +436,57 @@ header {
 
 .search-result-container {
     margin: 2em 2em 10em 2em;
-    display: inline-block;
+    display: none;
 }
 
 .search-result-container table {
     background-color: #062d56;
 }
+
 .search-result-container table tr th{
     width: 180px;
     padding: 0.5em;
     text-overflow: ellipsis;
     border: 1px solid black;
+}
+
+.vote-column {
+    text-align: center;
+    vertical-align: top;
+    width: 60px;
+    padding: 7px;
+}
+
+.vote {
+    cursor: pointer;
+    margin: 5px auto;
+}
+.vote:hover {
+    opacity: 50%;
+}
+
+#comment-container {
+    width: 80wv;
+    border-bottom: 2px solid #181818;
+}
+
+.comment-content {
+    width: 100%;
+    vertical-align: top;
+    padding: 10px;
+    border-bottom: 2px solid black;
+}
+
+.comment-header {
+    padding-left: 10px;
+    font-size: 0.8em;
+}
+
+.comment-edit {
+    font-size: 0.8em;
+    vertical-align: bottom;
+    padding-top: 4px;
+    font-style: italic;
 }
 
 /* Mobile */
@@ -506,6 +550,11 @@ header {
     .menu-ol > li {
         width: auto;
     }
+}
+
+.user {
+    color: #db8401;
+    font-style: bold;
 }
 
 .messages {

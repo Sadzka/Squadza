@@ -7,7 +7,6 @@ class ItemRepository extends Repository
 {
 	public function getItem(string $id) : ? Item {
         
-        
         $stmt = $this->database->connect()->prepare("
             SELECT * FROM items WHERE items_id = :id
         ");
@@ -152,5 +151,18 @@ class ItemRepository extends Repository
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getItemComments(string $id) {
+
+        $stmt = $this->database->connect()->prepare("
+            SELECT * FROM `v_items_comment` WHERE `items_id` = :id
+        ");
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        
+        $stmt->execute();
+        
+        $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $comments;
     }
 }

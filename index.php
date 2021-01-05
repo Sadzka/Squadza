@@ -16,5 +16,6 @@ Router::post('profile', 'SecurityController');
 Router::get('item', 'ItemController');
 Router::post('itemSearch', 'ItemController');
 Router::post('itemRender', 'ItemController');
+Router::post('itemComments', 'ItemController');
 
 Router::run($path);

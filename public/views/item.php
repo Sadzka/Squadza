@@ -17,10 +17,11 @@
 
 	<div class="search-item-tooltip-container">
 		<?php include_once(__DIR__ . "/../../src/common/searchItem.php"); ?>
-		<div class="itemtooltip"> </div>
+		<div class="itemtooltip">
+		</div>
 	</div>
 
-	<div class="search-result-container">
+	<div class="search-result-container" id="search-result-container">
 		<table>
 			<tr>
 				<th><span>Name</span></th>
@@ -32,41 +33,36 @@
 		</table>
 	</div>
 
-	<?php
-/*
-	if (isset($items) && $items != 'notfound') {
-
-		echo '';
-
-		$i = 0;
-		foreach ($items as $item) {
-			if ($i % 2)
-				$result = '<div class="search-result-item result-odd"><a href="item?id=:param1"><span class="q:param2">:param3</span></a></div>';
-			else
-				$result = '<div class="search-result-item result-even"><a href="item?id=:param1"><span class="q:param2">:param3</span></a></div>';
-			 
-
-			$result = str_replace(":param1", $item['items_id'], $result);
-			$result = str_replace(":param2", $item['quality'], $result);
-			$result = str_replace(":param3", $item['name'], $result);
-
-			echo ($result);
-			$i++;
-		}
-
-		echo '</div>';
-	}
-*/
-	?>
+	<div class="search-result-container" id="comments-container">
+		<table>
+			<tr>
+				<td class="vote-column">
+					<p class="vote" title="This comment is helpful."> ▲ </p>
+					<p class="score"> 123 </p>
+					<p class="vote" title="This comment is not helpful."> ▼ </p>
+				</td>
+				<td class="comment-content">
+					<div class="comment-header">By {user} on {date}</div>
+					<div class="comment-text">Comment Content</div>
+					<div class="comment-edit"><span class="q1">Last Edited: {date} </span></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
 </body>
+
 
 <template id="item-template">
 	<tr>
-		<th>
+		<th id="iname">
 			<a href="#" class="itemref">
 				<span>
 					Name
 				</span>
+			</a>
+			<a href="#" class="itemref-new">
+				<img class="item-ext-link" src="public/img/interface/external-link.png">
 			</a>
 		</th>
 
@@ -75,4 +71,19 @@
 		<th id="slot">Slot</th>
 		<th id="type">Type</th>
 	</tr>
+</template>
+
+<template id="comment-template">
+	<tr>
+	<td class="vote-column">
+		<p class="vote" title="This comment is helpful."> ▲ </p>
+		<p class="score"> 123 </p>
+		<p class="vote" title="This comment is not helpful."> ▼ </p>
+	</td>
+	<td class="comment-content">
+		<div class="comment-header">By {user} on {date}</div>
+		<div class="comment-text">Comment Content</div>
+		<div class="comment-edit"><span class="q1">Last Edited: {date} </span></div>
+	</td>
+</tr>
 </template>

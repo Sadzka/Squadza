@@ -118,6 +118,12 @@ a .q5 {
 	background: url(../img/money/money-copper.gif) no-repeat left center; background-size: 1.20em;
 }
 
+.item-ext-link {
+	float: right;
+	width: 16px;
+	height: 16px;
+}
+
 @media only screen and (max-device-width: 420px) {
     * {
 		font-size: 28px;	

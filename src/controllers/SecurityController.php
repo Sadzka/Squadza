@@ -28,7 +28,6 @@ class SecurityController extends AppController {
     public function login()
     {   
         // $user = new User('qwe@qwe.qwe', 'qwe', 'Qwe');
-		$userRepository = UserRepository::getInstance();
 		
         if (!$this->isPost()) {
             return $this->render('login');
@@ -41,7 +40,9 @@ class SecurityController extends AppController {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-		$user = $userRepository->getUser($email);
+		$user = UserRepository::getInstance()->getUser($email);
+		
+		$password = password_hash($password, PASSWORD_BCRYPT);
 		
 		if ($user == null
 		||  $user->getEmail() !== $email
@@ -56,7 +57,49 @@ class SecurityController extends AppController {
 	
 	public function register()
 	{
-		return $this->render('register');
+		if (!$this->isPost()) {
+            return $this->render('register');
+        }
+		
+		if (!isset($_POST['email'])
+		||  !isset($_POST['username'])
+		||  !isset($_POST['password'])
+		||  !isset($_POST['passwordC'])) {
+            return $this->render('register');
+		}
+
+		$email = $_POST['email'];
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$passwordConfirmed = $_POST['passwordC'];
+
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			return $this->render('register', ['messages' => ['Wrong email!']]);
+		}
+
+		if (strlen($username) < 3) {
+			return $this->render('register', ['messages' => ['Username must have at least 3 characters!']]);
+		}
+
+		if (!preg_match('/^[a-zA-Z0-9 ]+$/', $username)) {
+			return $this->render('register', ['messages' => ['Username can only contain letters and numbers!']]);
+		}
+
+		if (strcmp($password, $passwordConfirmed) != 0) {
+			return $this->render('register', ['messages' => ['Password does not match!']]);
+		}
+
+		if (strlen($password) < 8) {
+			return $this->render('register', ['messages' => ['Password must have at least 8 characters!']]);
+		}
+
+		$password = password_hash($password, PASSWORD_BCRYPT);
+		$result = UserRepository::getInstance()->createUser($email, $username, $password);
+
+		if ($result == 1) { return $this->render('register', ['messages' => ['Email already taken!']]); } 
+		else if ($result == 2) { return $this->render('register', ['messages' => ['Username already taken!']]); }
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/index");
 	}
 	
 	public function profile()

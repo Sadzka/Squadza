@@ -8,9 +8,10 @@ const slot = document.querySelector('select[name="slot[]"]');
 const rarity = document.querySelector('select[name="rarity[]"]');
 
 const form = document.querySelector('.search-form');
-const itemContainer = document.querySelector('.search-result-container table');
+const itemContainer = document.querySelector('#search-result-container table');
+const commentContainer = document.querySelector('#comments-container table');
 
-console.log(itemContainer);
+//console.log(itemContainer);
 
 form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -33,11 +34,14 @@ form.addEventListener("submit", function (event) {
         body: JSON.stringify(data)
     }).then(function (response) {
         return response.json();
-    }).then(function (projects) {
+    }).then(function (items) {
         itemContainer.innerHTML = "<tr><th>Name</th><th>Item Level</th> <th>Required Level</th> <th>Slot</th><th>Type</th></tr>";
-        loadItems(projects);
+        loadItems(items);
     });
     
+    show("#search-result-container");
+    hide("#comments-container");
+
     /*.then(response => response.text())
     .then((response) => {
         document.querySelector("body").innerHTML = response;
@@ -47,8 +51,8 @@ form.addEventListener("submit", function (event) {
 });
 
 function loadItems(items) {
+    //console.log(items);
     items.forEach(item => {
-        console.log(item);
         createItem(item);
     });
 }
@@ -62,7 +66,7 @@ function createItem(item) {
     const text = clone.querySelector("span");
     text.classList.add('q' + item.quality);
     text.innerHTML = item.name;
-
+    
     clone.querySelector("#ilv").innerHTML = item.item_level;
     clone.querySelector("#rlv").innerHTML = item.required_level;
     clone.querySelector("#slot").innerHTML = item.slot;
@@ -71,6 +75,10 @@ function createItem(item) {
     const ref = clone.querySelector(".itemref");
     ref.addEventListener("click", itemHref);
     ref.href = item.items_id;
+
+    const refNew = clone.querySelector(".itemref-new");
+    refNew.addEventListener("click", itemDetails);
+    refNew.href = item.items_id;
 
     itemContainer.appendChild(clone);
 }
@@ -106,6 +114,7 @@ function itemHref(event) {
         document.querySelector(".itemtooltip").innerHTML = response.slice(0, -1);
     })
     .catch(err => console.log(err));
+    return itemid;
 }
 
 function getSelectValues(select) {
@@ -121,4 +130,73 @@ function getSelectValues(select) {
         }
     }
     return result;
+}
+
+function itemDetails(event) {
+    var itemid = itemHref(event);
+
+    show("#comments-container");
+    hide("#search-result-container");
+
+    loadItemsDetails(itemid);
+}
+
+function loadItemsDetails(itemid) {
+    const data = {
+        id : itemid
+    };
+    fetch("/itemComments", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(function (response) {
+        return response.json();
+    }).then((response) => {
+        commentContainer.innerHTML = '<tr><th>Score</th><th>Comments</th></tr>';
+        loadComments(response);
+        //document.querySelector(".itemtooltip").innerHTML = response.slice(0, -1);
+
+    })
+    .catch(err => console.log(err));
+    
+    //document.querySelector('#search-result-container').style.display = 'none';
+}
+
+function loadComments(comments) {
+    console.log(comments);
+    comments.forEach(comment => {
+        console.log(comment );
+        createComment(comment);
+    });
+}
+
+function createComment(comment) {
+    const template = document.querySelector("#comment-template");
+
+    const clone = template.content.cloneNode(true);
+
+    const score = clone.querySelector(".score");
+    score.innerHTML = comment.score;
+    
+    clone.querySelector(".comment-header").innerHTML = 'By <a href="#"><span class="user">' + comment.author + '</span> <a> on ' + comment.date;
+    clone.querySelector(".comment-text").innerHTML = comment.comment;
+
+    if (comment.last_edit != null) {
+        clone.querySelector(".comment-edit").innerHTML = 'Last edit:' + comment.edit;
+    }
+
+    console.log(commentContainer);
+    commentContainer.appendChild(clone);
+}
+
+function show(name) {
+    const container = document.querySelector(name);
+    container.style.display = 'inline-block';
+}
+
+function hide(name) {
+    const container = document.querySelector(name);
+    container.style.display = 'none';
 }

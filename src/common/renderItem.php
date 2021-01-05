@@ -1,4 +1,3 @@
-
 <p class="iconlarge">
 	<img src="public/img/icons/itemborder.png" />
 	<img class="itemicon" src="public/img/icons/<?= $item->getIcon() ?>.jpg" />

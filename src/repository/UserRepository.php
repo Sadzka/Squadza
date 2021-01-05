@@ -30,5 +30,30 @@ class UserRepository extends Repository
 		); 
 	}
 	
+	public function createUser($email, $username, $password) {
 
+		$stmt = $this->database->connect()->prepare('
+			INSERT INTO `users` (`username`, `password`, `email`)
+			VALUES (?, ?, ?)
+		');
+
+		try {
+			$stmt->execute([
+				$username,
+				$password,
+				$email
+			]);
+		} catch (PDOException $e) {
+
+			$error = $e->errorInfo[2];
+
+			$pos_start = strpos($error, "key '");
+			$error = substr( $error, $pos_start + 5 );
+			$error = substr( $error, 0, strlen($error) - 1 );
+
+			if ($error == 'UNIQUE_EMAIL') { return 1; }
+			if ($error == 'UNIQUE_USERNAME') { return 2; }
+		}
+		return 0;
+	}
 }

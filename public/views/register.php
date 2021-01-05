@@ -18,6 +18,15 @@
             <input class="button" type="submit" value="REGISTER" name="Register"></p>
             <input type="hidden" name="user_token" value="<?php echo $CSRF_TOKEN; ?>">  
         </form>
+		<div class="messages">
+		<?php
+			if(isset($messages)) {
+				foreach($messages as $message) {
+					echo $message;
+				}
+			}
+		?>
+		</div>
         <hr>
         <span class="help-text"> <a href="login">Have account? Login instead.</a> </span>
 

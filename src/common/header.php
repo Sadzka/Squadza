@@ -11,27 +11,41 @@
             <a href="#"> <img class="media-icon" src="public/img/interface/notification.png" /> </a>
             <img class="media-icon" id="icon-menu" src="public/img/interface/menu.png" />
         </div>
+
+
         <?php
 
         //TODO
         $logged = true	;
         $user = "ExampleUser";
+        $avatar = "public/uploads/avatars/default.png";
         //
 
         if(!$logged) {
-            echo 
-            '<div class="button-header"> <a class="button-header-a" href="login"> SIGN UP </a> </div>
+            echo '
+            <div class="button-header"> <a class="button-header-a" href="register"> SIGN UP </a> </div>
             <div class="button-header"> <a class="button-header-a" href="login"> LOGI IN </a> </div>';
         }
+        
         else {
             echo
             '<div class="profile-header">
-            <img class="header-profile-avatar" src="public/uploads/avatars/default.png">' . $user . '<a href=#>
-            <img class="arrow-down-sign-to-navigate" src="public/img/interface/arrow-down-sign-to-navigate.png" /> 
-            </a>
+                <img class="header-profile-avatar" src="public/uploads/avatars/default.png">
+                
+                <ol class="menu-ol menu-ol-header">
+                    <li>
+                        <span class="menu-li">' . $user . ' ▼</span></a>
+                        <ul>
+                            <li><a href="profile">Profile</a></li>
+                            <li><a href="logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ol>
+
+                </a>
             </div>' ;
         }
+        
         ?>
-
     </div>
 </header>
