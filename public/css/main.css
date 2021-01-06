@@ -279,7 +279,7 @@ header {
 .news-container {
     display: grid;
 
-    margin-top: 2em;
+    margin: 1em 0;
     margin-left: 5%;
 }
 
@@ -287,6 +287,7 @@ header {
     display: flex;
     margin-top: 20px;
 
+    margin: 1em 0;
     background: rgb(17, 40, 130);
     max-height: 256px;
     min-width: 600px;
