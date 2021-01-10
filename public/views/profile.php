@@ -12,13 +12,13 @@
 
 	<h1>AVATAR</h1>
 	<?php
-		echo isset($messages);
-			if(isset($messages)){
-				foreach($messages as $message) {
-					echo $message;
-				}
+		if(isset($messages)) {
+			foreach($messages as $message) {
+				echo $message;
 			}
-		?>
+		}
+	?>
+
 	<form action="#" method="POST" ENCTYPE="multipart/form-data">
 		<input type="file" name="file"> <br/>
 		<button type="submit">UPLOAD</button>

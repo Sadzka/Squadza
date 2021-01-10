@@ -8,18 +8,12 @@ class UserRepository extends Repository
 	public function getUser(string $email) : ? User {
 		
 		$stmt = $this->database->connect()->prepare("
-			SELECT * FROM users WHERE email = :email
+			SELECT email, username, password FROM users WHERE email = :email
 		");
 		$stmt->bindParam(':email', $email, PDO::PARAM_STR);
 		$stmt->execute();
 		
 		$user = $stmt->fetch(PDO::FETCH_ASSOC);
-		
-		/*
-		if (!$user) {
-			throw new ErrorException("User not found in database.");
-		}
-		*/
 		
 		if (!$user) return null;
 		
@@ -30,7 +24,7 @@ class UserRepository extends Repository
 		); 
 	}
 	
-	public function createUser($email, $username, $password) {
+	public function createUser(string $email, string $username, string $password) {
 
 		$stmt = $this->database->connect()->prepare('
 			INSERT INTO `users` (`username`, `password`, `email`)
@@ -55,5 +49,57 @@ class UserRepository extends Repository
 			if ($error == 'UNIQUE_USERNAME') { return 2; }
 		}
 		return 0;
+	}
+
+	public function setUserCookie(string $email, string $cookie, $cookie_expire) 
+	{
+		$stmt = $this->database->connect()->prepare("
+		UPDATE users
+		SET
+		cookie = :cookie,
+		cookie_expire = :cookie_expire
+		WHERE
+		email = :email
+		");
+		$stmt->bindParam(':cookie', $cookie, PDO::PARAM_STR);
+		$stmt->bindParam(':cookie_expire', $cookie_expire, PDO::PARAM_STR);
+		$stmt->bindParam(':email', $email, PDO::PARAM_STR);
+		$stmt->execute();
+	}
+
+	public function getUserByCookie(string $cookie) {
+
+		$stmt = $this->database->connect()->prepare("
+			SELECT * FROM users WHERE cookie = :cookie
+		");
+		$stmt->bindParam(':cookie', $cookie, PDO::PARAM_STR);
+		$stmt->execute();
+		
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if (!$user) return null;
+		
+		return new User(
+			$user['email'],
+			$user['username'],
+			$user['password'],
+			$user['cookie'],
+			$user['cookie_expire'],
+			$user['avatar']
+		); 
+	}
+
+	public function setUserAvatar(string $email, string $avatarpath) {
+		$stmt = $this->database->connect()->prepare("
+		UPDATE users
+		SET
+		avatar = :avatar
+		WHERE
+		email = :email
+		");
+
+		$stmt->bindParam(':avatar', $avatarpath, PDO::PARAM_STR);
+		$stmt->bindParam(':email', $email, PDO::PARAM_STR);
+		$stmt->execute();
 	}
 }

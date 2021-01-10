@@ -8,7 +8,7 @@ class Repository
     private static $instances = [];
 
     protected function __construct() {
-			$this->database = new Database();
+		$this->database = new Database();
 	}
 	
     protected function __clone() { }

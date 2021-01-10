@@ -1,13 +1,32 @@
 <?php
 
+require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../repository/UserRepository.php';
+
 class AppController {
 
-	private $request;
+    private $request;
+    protected $currentUser;
 
     public function __construct()
     {
         $this->request = $_SERVER['REQUEST_METHOD'];
+        $this->getCurrentUser();
     }
+
+    protected function getCurrentUser() {
+        if (isset($_COOKIE['sessionid'])) {
+            $this->currentUser = UserRepository::getInstance()->getUserByCookie($_COOKIE['sessionid']);
+            // check outdated cookies
+            if ($this->currentUser->getCookieExpire() < time() ) {
+                $this->currentUser = null;
+            }
+
+        } else {
+            $this->currentUser = null;
+        }
+    }
+
 
     protected function isGet(): bool
     {

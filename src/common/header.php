@@ -17,11 +17,9 @@
 
         //TODO
         $logged = true	;
-        $user = "ExampleUser";
         $avatar = "public/uploads/avatars/default.png";
         //
-
-        if(!$logged) {
+        if(!$this->currentUser) {
             echo '
             <div class="button-header"> <a class="button-header-a" href="register"> SIGN UP </a> </div>
             <div class="button-header"> <a class="button-header-a" href="login"> LOGI IN </a> </div>';
@@ -30,11 +28,11 @@
         else {
             echo
             '<div class="profile-header">
-                <img class="header-profile-avatar" src="public/uploads/avatars/default.png">
+                <img class="header-profile-avatar" src="public/uploads/avatars/' . $this->currentUser->getAvatar() . '">
                 
                 <ol class="menu-ol menu-ol-header">
                     <li>
-                        <span class="menu-li">' . $user . ' ▼</span></a>
+                        <span class="menu-li">' . $this->currentUser->getUsername() . ' ▼</span></a>
                         <ul>
                             <li><a href="profile">Profile</a></li>
                             <li><a href="logout">Logout</a></li>

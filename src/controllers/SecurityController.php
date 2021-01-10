@@ -9,7 +9,7 @@ class SecurityController extends AppController {
 	private $messages = [];
 	const MAX_FILE_SIZE = 1024 * 1024;
 	const SUPPORTED_TYPES = ['image/png', 'image/jpeg'];
-	const UPLOAD_DIRECTORY = '/../public/uploads/';
+	const UPLOAD_DIRECTORY = '/../public/uploads/avatars/';
 	
 	private function validateImage($file) : bool {
 
@@ -27,6 +27,13 @@ class SecurityController extends AppController {
 	
     public function login()
     {   
+		// uzytkownik jest zalogowany, przekieruj na strone glowna
+		
+		if ($this->currentUser != null) {
+			$url = "http://$_SERVER[HTTP_HOST]";
+			header("Location: {$url}/index");
+			//return;
+		}
         // $user = new User('qwe@qwe.qwe', 'qwe', 'Qwe');
 		
         if (!$this->isPost()) {
@@ -42,13 +49,19 @@ class SecurityController extends AppController {
 
 		$user = UserRepository::getInstance()->getUser($email);
 		
-		$password = password_hash($password, PASSWORD_BCRYPT);
-		
 		if ($user == null
 		||  $user->getEmail() !== $email
-		||  $user->getPassword() !== $password) {
+		||  password_verify($password, $user->getPassword()) == false) {
 			return $this->render('login', ['messages' => ['Wrong email or password!']]);
 		}
+
+		// Succesfull
+
+		$cookieValue = $this->generateCookie();
+		$cookieExpiration = time() + 60*60*12*3;
+		setcookie("sessionid", $cookieValue, $cookieExpiration, '/', "localhost", false, false); // set cookie for 3 days
+		UserRepository::getInstance()->setUserCookie($email, $cookieValue, $cookieExpiration);
+
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/index");
@@ -109,10 +122,14 @@ class SecurityController extends AppController {
 		&& is_uploaded_file( $_FILES['file']['tmp_name'])
 		&& $this->validateImage($_FILES['file']))
 		{
+			$ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			$filename = $this->currentUser->getUsername() . '_' . bin2hex(random_bytes(16)) . '.' . $ext;
+
 			if (move_uploaded_file(
 			$_FILES['file']['tmp_name'],
-			dirname(__DIR__) . self::UPLOAD_DIRECTORY.$_FILES['file']['name']
+			dirname(__DIR__) . self::UPLOAD_DIRECTORY . $filename
 			)) {
+				UserRepository::getInstance()->setUserAvatar($this->currentUser->getEmail(), $filename);
 				$this->messages[] = 'Avatar changed.';
 			}
 			else {
@@ -121,5 +138,19 @@ class SecurityController extends AppController {
 		}
 		$this->render('profile', ['messages' => $this->messages]);		
 		
-    }
+	}
+
+	public function logout()
+	{
+		if ($this->currentUser != null) {
+			setcookie("sessionid", $this->currentUser->getCookieExpire(), time() - 360, '/');
+		}
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/index");
+	}
+
+	private function generateCookie($length = 64) {
+		$cookie = bin2hex(random_bytes($length));
+		return $cookie;
+	}
 }
