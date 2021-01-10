@@ -126,7 +126,7 @@ function getSelectValues(select) {
         opt = options[i];
 
         if (opt.selected) {
-        result.push(opt.value || opt.text);
+            result.push(opt.value || opt.text);
         }
     }
     return result;
@@ -165,11 +165,13 @@ function loadItemsDetails(itemid) {
 }
 
 function loadComments(comments) {
-    console.log(comments);
+    //console.log(comments);
     comments.forEach(comment => {
-        console.log(comment );
+        //console.log(comment );
         createComment(comment);
     });
+    updateStatisticsButtons();
+    updateCommentUserResponse();
 }
 
 function createComment(comment) {
@@ -179,15 +181,20 @@ function createComment(comment) {
 
     const score = clone.querySelector(".score");
     score.innerHTML = comment.score;
+
+    const id = clone.querySelector("#comment_id");
+    id.id = comment.items_comment_id;
     
-    clone.querySelector(".comment-header").innerHTML = 'By <a href="#"><span class="user">' + comment.author + '</span> <a> on ' + comment.date;
+    console.log(comment);
+
+    clone.querySelector(".comment-header").innerHTML = 'By <a href="#"><span class="user">' + comment.username + '</span> <a> on ' + comment.date;
     clone.querySelector(".comment-text").innerHTML = comment.comment;
 
     if (comment.last_edit != null) {
         clone.querySelector(".comment-edit").innerHTML = 'Last edit:' + comment.edit;
     }
 
-    console.log(commentContainer);
+    //console.log(commentContainer);
     commentContainer.appendChild(clone);
 }
 

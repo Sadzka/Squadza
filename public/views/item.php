@@ -6,6 +6,7 @@
 	<link type="text/css" rel="stylesheet" href="public/css/main.css">
 
 	<script type="text/javascript" src="./public/js/search.js" defer></script>
+	<script type="text/javascript" src="./public/js/statistics.js" defer></script>
 </head>
 
 <body>
@@ -75,10 +76,10 @@
 
 <template id="comment-template">
 	<tr>
-	<td class="vote-column">
-		<p class="vote" title="This comment is helpful."> ▲ </p>
-		<p class="score"> 123 </p>
-		<p class="vote" title="This comment is not helpful."> ▼ </p>
+	<td class="vote-column" id="comment_id">
+		<p class="vote voteup" title="This comment is helpful."> ▲ </p>
+		<p class="score"> 0 </p>
+		<p class="vote votedown" title="This comment is not helpful."> ▼ </p>
 	</td>
 	<td class="comment-content">
 		<div class="comment-header">By {user} on {date}</div>

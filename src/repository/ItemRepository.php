@@ -165,4 +165,46 @@ class ItemRepository extends Repository
         $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $comments;
     }
+
+    public function setItemCommentVote($comment_id, $userId, $value) {
+        $stmt = $this->database->connect()->prepare("SELECT setItemCommentVote(:comment_id, :user_id, :value) as score");
+        $stmt->bindParam(':comment_id', $comment_id, PDO::PARAM_STR);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_STR);
+        $stmt->bindParam(':value', $value, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $new_value = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $new_value;
+    }
+
+
+    public function getItemCommentsResponse($commentIds, $userId) {
+
+        $ask = "SELECT `items_comment_id`, `positive` FROM `items_comment_likes` WHERE `users_id` = :user_id"; 
+
+        $length_ids = 0;
+        if (isset($commentIds) && count($commentIds) > 0)
+        {
+            $length_ids = count($commentIds);
+            $ask = $ask . " AND ( `items_comment_id` = :id0 ";
+
+            for ($i = 1; $i < $length_ids; $i++) {
+                $ask = $ask . " OR `items_comment_id` = :id" . $i . " ";
+            }
+            $ask = $ask . " ) ";
+        }
+  
+        $stmt = $this->database->connect()->prepare($ask);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_STR);
+        for ($i = 0; $i < $length_ids; $i++) {
+            $stmt->bindParam(':id' . $i, $commentIds[$i], PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+        $responses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $responses;
+    }
+
 }
+

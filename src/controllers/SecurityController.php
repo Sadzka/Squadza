@@ -143,7 +143,11 @@ class SecurityController extends AppController {
 	public function logout()
 	{
 		if ($this->currentUser != null) {
-			setcookie("sessionid", $this->currentUser->getCookieExpire(), time() - 360, '/');
+			$cookieExpiration = 0;
+			$cookieValue = "";
+
+			setcookie("sessionid", $cookieValue, $cookieExpiration, '/');
+			UserRepository::getInstance()->setUserCookie($this->currentUser->getEmail(), $cookieValue, $cookieExpiration);
 		}
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/index");

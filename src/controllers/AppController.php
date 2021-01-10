@@ -18,7 +18,8 @@ class AppController {
         if (isset($_COOKIE['sessionid'])) {
             $this->currentUser = UserRepository::getInstance()->getUserByCookie($_COOKIE['sessionid']);
             // check outdated cookies
-            if ($this->currentUser->getCookieExpire() < time() ) {
+            if ($this->currentUser != null
+            &&  $this->currentUser->getCookieExpire() < time() ) {
                 $this->currentUser = null;
             }
 

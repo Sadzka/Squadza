@@ -85,7 +85,8 @@ class UserRepository extends Repository
 			$user['password'],
 			$user['cookie'],
 			$user['cookie_expire'],
-			$user['avatar']
+			$user['avatar'],
+			$user['id_users']
 		); 
 	}
 

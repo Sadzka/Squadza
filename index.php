@@ -18,5 +18,7 @@ Router::get('item', 'ItemController');
 Router::post('itemSearch', 'ItemController');
 Router::post('itemRender', 'ItemController');
 Router::post('itemComments', 'ItemController');
+Router::post('setItemCommentVote', 'ItemController');
+Router::post('getItemCommentsResponse', 'ItemController');
 
 Router::run($path);

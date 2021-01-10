@@ -79,6 +79,13 @@ body > table.tooltip.icon > tbody > tr > th > div > img {
 .s-gray { background: url(../img/sockets/gray.jpg) no-repeat left center; background-size: 1.20em; }
 .s-gray::after { content: "Gray Socket"; }
 
+.voteup.clicked {
+	color: green;
+}
+
+.votedown.clicked {
+	color: red;
+}
 
 /*** Quality ***/
 .q0 { color: #ffffff; }
