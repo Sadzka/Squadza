@@ -16,4 +16,19 @@ class ArticleRepository extends Repository
         $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $articles;
     }
+
+    public function addArticle(string $title, string $content, string $filename) {
+        $stmt = $this->database->connect()->prepare("
+        INSERT INTO `articles`
+        (`title`, `content`, `image`, `date`)
+        VALUES
+        (?, ?, ?, NOW());
+        ");
+        
+        $stmt->execute([
+            $title,
+            $content,
+            $filename
+        ]);
+    }
 }

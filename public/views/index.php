@@ -11,8 +11,22 @@
     
     <!-- TODO -->
 
-    <?php foreach($articles as $article): ?>
     <div class="news-container">
+
+    <?php if($this->currentUser != null
+    && ($this->currentUser->getPermissions() == 'MODERATOR'
+     || $this->currentUser->getPermissions() == 'ADMIN')) : ?>
+        <div class="inline-flex">
+			<h2 class="">Articles</h2>
+			<a href="newArticle">
+				<div class="add-comment">
+				New Article
+				</div>
+			</a>
+		</div>
+    <?php endif; ?>
+
+    <?php foreach($articles as $article): ?>
     
         <div class="news">
         
@@ -33,6 +47,6 @@
             </div>
 
         </div>
-    </div>
     <?php endforeach; ?>
+    </div>
 </body>
