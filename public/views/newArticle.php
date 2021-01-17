@@ -8,7 +8,9 @@
     }
     if (!$permissions) {
         $url = "http://$_SERVER[HTTP_HOST]";
+        echo 'xxx';
         header("Location: {$url}/index");
+        echo 'yyy';
         return;
     }
 ?>

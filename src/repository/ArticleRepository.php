@@ -31,4 +31,19 @@ class ArticleRepository extends Repository
             $filename
         ]);
     }
+
+    public function getArticleById($id) {
+        $stmt = $this->database->connect()->prepare("
+        SELECT *
+        FROM `articles`
+        WHERE `articles_id` = ?
+        ");
+        
+        $stmt->execute([$id]);
+
+        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $article;
+    }
+
 }
+

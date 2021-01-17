@@ -36,7 +36,8 @@ class ArticleController extends AppController {
 
         if ($this->currentUser == null
         || !$this->currentUser->haveModPerms()) {
-            return $this->render('index');
+            $this->messages[] = 'All fields all required.';
+            return $this->render('newArticle', ['messages' => $this->messages]);
         }
         
 		if (!$this->isPost()) {
@@ -93,6 +94,20 @@ class ArticleController extends AppController {
             $this->messages[] = 'Unknown image type.';
         }
         
-        $this->render('newArticle', ['messages' => $this->messages, 'data' => [$title, $content] ]);
+        $this->render('newArticle', ['messages' => $this->messages]);
+    }
+
+    public function article() {
+        if (isset($_GET['id'])) {
+            $this->messages[] = 'Article not found.';
+        }
+
+        $article = ArticleRepository::getInstance()->getArticleById($_GET['id']);
+
+        if ($article == null) {
+            $this->messages[] = 'Article not found.';
+        }
+
+        $this->render('article', ['messages' => $this->messages, 'article' => $article]);
     }
 }

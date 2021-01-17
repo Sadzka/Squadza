@@ -12,27 +12,7 @@
     <!-- TODO -->
 
     <div class="news-container">
-
-    <?php
-    if($this->currentUser != null
-    && $this->currentUser->haveModPerms()) : ?>
-
-        <div class="inline-flex">
-			<h2 class="">Articles</h2>
-			<a href="newArticle">
-				<div class="add-comment">
-				New Article
-				</div>
-			</a>
-		</div>
-        
-    <?php endif; ?>
-
-    <?php foreach($articles as $article): ?>
-    
-        <div class="news">
-        
-            <img class="news-icon" src="<?= "public/uploads/articles-icons/" . $article['image'] ?>">
+        <div class="news news-full">
             <div class="news-content">
 
                 <a href="<?= "article?id=", $article['articles_id'] ?>">
@@ -49,6 +29,5 @@
             </div>
 
         </div>
-    <?php endforeach; ?>
     </div>
 </body>

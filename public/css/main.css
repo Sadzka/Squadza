@@ -296,6 +296,10 @@ header {
     padding-right: 1em;
 }
 
+.news-full {
+    max-height: none !important;
+}
+
 .news-header {
     font-weight: 600;
     color: #fff;
@@ -314,6 +318,9 @@ header {
 .news-content {
     margin-top: 0.5em;
     margin-left: 1em;
+    
+    margin-bottom: 1em;
+    overflow: hidden;
 }
 
 .news-text {
@@ -610,6 +617,9 @@ header {
     .comment-button {
         width: 200px;
         font-size: 2em;
+    }
+    .news-text {
+        display: block;
     }
 }
 
