@@ -56,13 +56,20 @@ class ItemController extends AppController {
             http_response_code(200);
 
             $comments = ItemRepository::getInstance()->getItemComments($decoded['id']);
-            foreach ($comments as $key => $comment) {
-                if ($this->currentUser->getUsername() == $comment['username']) {
-                    $comments[$key]['editable'] = 1;
-                } else {
+            if ($this->currentUser != null) {
+                foreach ($comments as $key => $comment) {
+                    if ($this->currentUser->getUsername() == $comment['username']) {
+                        $comments[$key]['editable'] = 1;
+                    } else {
+                        $comments[$key]['editable'] = 0;
+                    }
+                }
+            } else {
+                foreach ($comments as $key => $comment) {
                     $comments[$key]['editable'] = 0;
                 }
             }
+
             echo json_encode($comments);
         }
     }
@@ -78,11 +85,17 @@ class ItemController extends AppController {
             header('Content-type: application/json');
             http_response_code(200);
 
-            $ok = ItemRepository::getInstance()->setItemCommentVote(
-                $decoded['comment_id'],
-                $this->currentUser->getId(),
-                $decoded['value']
-            );
+            $ok = '';
+            if ($this->currentUser != null)
+            {
+                $ok = ItemRepository::getInstance()->setItemCommentVote(
+                    $decoded['comment_id'],
+                    $this->currentUser->getId(),
+                    $decoded['value']
+                );
+            } else {
+                $ok['err'] = 'Login to vote!';
+            }
             echo json_encode($ok);
         }
     }
@@ -98,10 +111,16 @@ class ItemController extends AppController {
             header('Content-type: application/json');
             http_response_code(200);
 
-            $responses = ItemRepository::getInstance()->getItemCommentsResponse(
-                $decoded['comment_ids'],
-                $this->currentUser->getId()
-            );
+            $responses = '';
+            if ($this->currentUser != null)
+            {
+                $responses = ItemRepository::getInstance()->getItemCommentsResponse(
+                    $decoded['comment_ids'],
+                    $this->currentUser->getId()
+                );
+            } else {
+                $responses = '';
+            }
             
             echo json_encode($responses);
         }

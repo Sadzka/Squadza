@@ -75,6 +75,7 @@ commentSubmit.addEventListener("click", function(event) {
         .then(function(response) {
             response.score = 0;
             response.comment = editbox.value;
+            response.editable = 1
             createComment(response);
             updateStatisticsButtons();
             editbox.value = "";

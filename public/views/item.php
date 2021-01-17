@@ -40,7 +40,8 @@
 			<h2 class="">Comments</h2>
 			<a href="#comment">
 				<div class="add-comment">
-				Post a comment
+					<?= $this->currentUser != null ? 'Post a comment' : 'Log in to post a comment.' ?>
+				
 				</div>
 			</a>
 		</div>
