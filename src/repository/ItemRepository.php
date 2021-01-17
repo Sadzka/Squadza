@@ -34,6 +34,7 @@ class ItemRepository extends Repository
         }
 
         return new Item(
+            $item['items_id'],
             $item['icon'],
             $item['quality'],
             $item['name'],
@@ -156,7 +157,7 @@ class ItemRepository extends Repository
     public function getItemComments(string $id) {
 
         $stmt = $this->database->connect()->prepare("
-            SELECT * FROM `v_items_comment` WHERE `items_id` = :id
+            SELECT * FROM `v_items_comment` WHERE `items_id` = :id ORDER BY `date` DESC
         ");
         $stmt->bindParam(':id', $id, PDO::PARAM_STR);
         
@@ -177,7 +178,6 @@ class ItemRepository extends Repository
         $new_value = $stmt->fetch(PDO::FETCH_ASSOC);
         return $new_value;
     }
-
 
     public function getItemCommentsResponse($commentIds, $userId) {
 
@@ -206,5 +206,45 @@ class ItemRepository extends Repository
         return $responses;
     }
 
+    public function deleteItemComment($commentId, $userId, $userPerm) {
+        $stmt = $this->database->connect()->prepare(
+            'DELETE FROM `items_comment` WHERE
+            `items_comment_id` = ? AND (`users_id` = ? OR "ADMIN" = ? OR "MODERATOR" = ?)
+        ');
+        
+        $stmt->execute([
+            $commentId,
+            $userId,
+            $userPerm,
+            $userPerm
+        ]);
+    }
+
+    public function addItemComment($itemId, $userId, $comment) {
+
+        $stmt = $this->database->connect()->prepare("
+            INSERT INTO `items_comment` (`items_id`, `users_id`, `comment`, date)
+            VALUES (?, ?, ?, NOW())
+        ");
+
+        $stmt->execute([
+            $itemId,
+            $userId,
+            $comment
+        ]);
+
+        $stmt = $this->database->connect()->prepare("
+        SELECT `items_comment_id`, `date` FROM `items_comment`
+        WHERE `items_id` = ? AND `users_id` = ? AND `comment` = ?");
+
+        $stmt->execute([
+            $itemId,
+            $userId,
+            $comment
+        ]);
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
 }
 

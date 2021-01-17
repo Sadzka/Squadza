@@ -2,15 +2,7 @@
 
 require_once 'AppController.php';
 
-require_once __DIR__ . '/../repository/ArticleRepository.php';
-
 class DefaultController extends AppController {
-    
-    public function index()
-    {
-        $articles = ArticleRepository::getInstance()->getArticles();
-        $this->render('index', ['articles' => $articles]);
-    }
 
     public function login()
     {

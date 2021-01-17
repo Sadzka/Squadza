@@ -4,7 +4,18 @@ body {
 	margin: 0;
 }
 
+
 /*** Tooltip ***/
+
+#item-id {
+	display: none;
+}
+
+.item-id-visible {
+	color: #777777;
+	font-style: italic;
+	float: right;
+}
 .itemtooltip {
 	margin-top: 2em;
 	margin-left: 1em;

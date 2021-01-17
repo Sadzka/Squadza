@@ -35,7 +35,7 @@ function vote(button, value) {
         return response.json();
     }).then(function (response) {
         const score = container.querySelector('.score');
-        score.innerHTML = parseInt(response.score);
+        score.innerHTML = response.score ? parseInt(response.score) : 0 ;
         
         changeVoteButtonColors(button);
 

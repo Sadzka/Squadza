@@ -11,7 +11,13 @@ const form = document.querySelector('.search-form');
 const itemContainer = document.querySelector('#search-result-container table');
 const commentContainer = document.querySelector('#comments-container table');
 
-//console.log(itemContainer);
+const commentSubmit = document.querySelector(".button.comment-button");    
+const editbox = document.querySelector('.comment-editbox');
+
+let permissions = getPermissions();
+permissions.then(function(p) {
+    permissions = p;
+})
 
 form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -49,6 +55,57 @@ form.addEventListener("submit", function (event) {
     .catch(err => console.log(err));*/
     
 });
+
+commentSubmit.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    if (editbox.value.length > 3) {
+        const id = document.querySelector("#item-id");
+
+        data = {
+            item_id : id.innerHTML,
+            comment : editbox.value
+        };
+        fetch("/addComment", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(function(response) {
+            response.score = 0;
+            response.comment = editbox.value;
+            createComment(response);
+            updateStatisticsButtons();
+            editbox.value = "";
+        })
+        .catch(function(error) {
+            console.log(error);
+        });   
+    } 
+});
+
+editbox.addEventListener("keyup", function (event) {
+    const len = this.value.length;
+    const maxlen = this.getAttribute('maxlength');
+    const rem = maxlen - len;
+
+    document.querySelector(".char-remains").innerHTML = "Up to " + maxlen + " characters. " + rem + " characters remaining.";
+})
+
+function getPermissions(){
+    return fetch("/getPermissions", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(function(response) {
+        return response;
+    })
+    .catch(function(error) {
+        console.log(error);
+    });    
+}
 
 function loadItems(items) {
     //console.log(items);
@@ -154,10 +211,10 @@ function loadItemsDetails(itemid) {
     }).then(function (response) {
         return response.json();
     }).then((response) => {
-        commentContainer.innerHTML = '<tr><th>Score</th><th>Comments</th></tr>';
-        loadComments(response);
+        //commentContainer.innerHTML = '<tr><th>Score</th><th>Comments</th></tr>';
         //document.querySelector(".itemtooltip").innerHTML = response.slice(0, -1);
 
+        loadComments(response);
     })
     .catch(err => console.log(err));
     
@@ -180,18 +237,29 @@ function createComment(comment) {
     const clone = template.content.cloneNode(true);
 
     const score = clone.querySelector(".score");
-    score.innerHTML = comment.score;
+    score.innerHTML = comment.score ? comment.score : 0;
 
     const id = clone.querySelector("#comment_id");
     id.id = comment.items_comment_id;
     
-    console.log(comment);
+    //console.log(comment);
 
     clone.querySelector(".comment-header").innerHTML = 'By <a href="#"><span class="user">' + comment.username + '</span> <a> on ' + comment.date;
     clone.querySelector(".comment-text").innerHTML = comment.comment;
 
+    let deleteBtn = clone.querySelector(".comment-delete");
+    if (comment.editable || permissions == "ADMIN") {
+        deleteBtn.style.setProperty('display', 'block');
+        deleteBtn.addEventListener('click', function() {
+            deleteComment(id.id);
+        });
+    }
+
     if (comment.last_edit != null) {
         clone.querySelector(".comment-edit").innerHTML = 'Last edit:' + comment.edit;
+    }
+    else {
+        clone.querySelector(".comment-edit").innerHTML = '';
     }
 
     //console.log(commentContainer);
@@ -206,4 +274,35 @@ function show(name) {
 function hide(name) {
     const container = document.querySelector(name);
     container.style.display = 'none';
+}
+
+function deleteComment(comment_id) {
+    //console.log(comment_id);
+    const data = {
+        item_comment_id : comment_id
+    };
+
+    fetch("/deleteComment", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(function(response) {
+        return response.text().then(function(text) {
+       console.log(text);
+    })});
+    console.log(commentContainer);
+
+    let objects = commentContainer.querySelectorAll(".vote-column");
+    let object;
+    objects.forEach(o => {
+        if (o.getAttribute('id') == comment_id) {
+            object = o;
+            return;
+        }
+    });
+    console.log(object);
+
+    commentContainer.removeChild(object.parentNode);
 }

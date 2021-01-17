@@ -8,6 +8,7 @@ class User {
     private $cookie_expire;
     private $avatar;
     private $id;
+    private $permissions;
 
     public function __construct(
         string $email,
@@ -15,8 +16,9 @@ class User {
         string $password,
         string $cookie = '',
         string $cookie_expire = '0',
-        string $avatar = "default.png",
-        $id = -1
+        string $avatar = 'default.png',
+        $id = -1,
+        $permissions = 'USER'
     )
     {
         $this->email = $email;
@@ -26,6 +28,7 @@ class User {
         $this->cookie_expire = $cookie_expire;
         $this->avatar = $avatar;
         $this->id = $id;
+        $this->permissions = $permissions;
     }
 
     public function setCookie(string $cookie, $cookie_expire)
@@ -79,5 +82,18 @@ class User {
         return $this->id;
     }
 
+    public function setPermissions(string $id)
+    {
+        $this->permissions = $permissions;
+    }
+
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
+
+    public function haveModPerms() {
+        return ($this->permissions == 'MODERATOR' || $this->permissions == 'ADMIN') ? true : false;
+    }
 
 }

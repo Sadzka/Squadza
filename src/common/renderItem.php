@@ -6,8 +6,10 @@
 <table class="tooltip">
 	<th>
 		<div class="item">
-			<span class="q<?= $item->getQuality() ?> name"> <?= $item->getName() ?> </span> <br>
+			<span class="q<?= $item->getQuality() ?> name"> <?= $item->getName() ?> </span>
 			
+			<div id="item-id"><?= $item->getId() ?></div>
+			<div class="item-id-visible">ID: <?= $item->getId() ?></div> <br>
 			
 			<?= is_null($item->getItemLevel())
 			? ''
@@ -117,7 +119,7 @@
 			
 			<!-- <th style="background-position: top right;"></th> -->
 			<!-- <tr><th style="background-position: bottom left"></th><th style="background-position: bottom right"></th></tr>  -->
-			
+			<br>
 		</div>
 	</th>
 </table>

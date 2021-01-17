@@ -25,6 +25,11 @@ class SecurityController extends AppController {
 		return true;
 	}
 	
+	private function generateCookie($length = 64) {
+		$cookie = bin2hex(random_bytes($length));
+		return $cookie;
+	}
+
     public function login()
     {   
 		// uzytkownik jest zalogowany, przekieruj na strone glowna
@@ -153,8 +158,25 @@ class SecurityController extends AppController {
         header("Location: {$url}/index");
 	}
 
-	private function generateCookie($length = 64) {
-		$cookie = bin2hex(random_bytes($length));
-		return $cookie;
+	public function getPermissions()
+	{
+		$contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            header('Content-type: application/json');
+            http_response_code(200);
+
+			$permissions = 'USER';
+            if ($this->currentUser != null) {
+				$permissions = $this->currentUser->getPermissions();
+			}
+
+            echo json_encode($permissions);
+		}
 	}
+
 }
+

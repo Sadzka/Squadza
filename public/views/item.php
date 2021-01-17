@@ -2,7 +2,7 @@
 
 <head>
 	<title>Arikazike</title>
-	<link rel="stylesheet" href="public/css/items.css">
+	<link type="text/css" rel="stylesheet" href="public/css/items.css">
 	<link type="text/css" rel="stylesheet" href="public/css/main.css">
 
 	<script type="text/javascript" src="./public/js/search.js" defer></script>
@@ -34,21 +34,33 @@
 		</table>
 	</div>
 
+
 	<div class="search-result-container" id="comments-container">
+		<div class="inline-flex">
+			<h2 class="">Comments</h2>
+			<a href="#comment">
+				<div class="add-comment">
+				Post a comment
+				</div>
+			</a>
+		</div>
+
 		<table>
-			<tr>
-				<td class="vote-column">
-					<p class="vote" title="This comment is helpful."> ▲ </p>
-					<p class="score"> 123 </p>
-					<p class="vote" title="This comment is not helpful."> ▼ </p>
-				</td>
-				<td class="comment-content">
-					<div class="comment-header">By {user} on {date}</div>
-					<div class="comment-text">Comment Content</div>
-					<div class="comment-edit"><span class="q1">Last Edited: {date} </span></div>
-				</td>
-			</tr>
+			
 		</table>
+
+		<?php if($this->currentUser != null) : ?>
+
+			<a name="comment"></a>
+			<div class="comment-edit-body" id="comments">
+				<h2>Post a comment</h2>
+				<textarea rows="10" class="comment-editbox" name="body-comment" maxlength="1024"></textarea>
+				<div class="char-remains">Up to 1024 characters. 1024 characters remaining.</div>
+				<input type="submit" value="Submit" class="button comment-button">
+			</div>
+
+		<?php endif; ?>
+
 	</div>
 	
 </body>
@@ -82,7 +94,8 @@
 		<p class="vote votedown" title="This comment is not helpful."> ▼ </p>
 	</td>
 	<td class="comment-content">
-		<div class="comment-header">By {user} on {date}</div>
+		<div class="comment-header">By {user} on {date}</div>		
+		<div class="comment-delete">Delete</div>
 		<div class="comment-text">Comment Content</div>
 		<div class="comment-edit"><span class="q1">Last Edited: {date} </span></div>
 	</td>

@@ -2,6 +2,7 @@
 
 class Item
 {
+	private $id;
 	private $icon;
     private $quality;
     private $name;
@@ -19,6 +20,7 @@ class Item
     private $sellPrice;
     
     function __construct(
+		$id,
 		$icon,
         $quality,
         $name,
@@ -35,6 +37,7 @@ class Item
         $requiredLevel,
         $sellPrice)
     {
+		$this->id 				= $id;
         $this->icon          	= $icon;
         $this->quality          = $quality;
         $this->name             = $name;
@@ -170,5 +173,12 @@ class Item
 
 	function setIcon($icon) {  
 		$this->icon = $icon; 
+	} 
+	function getId() { 
+ 		return $this->id; 
+	} 
+
+	function setId($id) {  
+		$this->id = $id; 
 	} 
 }
