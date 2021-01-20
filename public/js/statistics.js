@@ -34,6 +34,10 @@ function vote(button, value) {
     }).then(function (response) {
         return response.json();
     }).then(function (response) {
+        if (response.err) {
+            alert(response.err);
+            return;
+        }
         const score = container.querySelector('.score');
         score.innerHTML = response.score ? parseInt(response.score) : 0 ;
         
@@ -72,24 +76,25 @@ function setVoteButtonsCollors(buttons) {
     var container = document.querySelector("#comments-container");
     var voteColumns = container.querySelectorAll(".vote-column");
 
-
-    buttons.forEach(element => {
-
-        voteColumns.forEach(column => {
-            //console.log(column)
-            if (column.getAttribute('id') == element.items_comment_id) {
-
-                //console.log(column.querySelector(".voteup"));
-
-                var button = (element.positive ==  "1") 
-                ? column.querySelector(".voteup")
-                : column.querySelector(".votedown");
-                //console.log(button);
-                changeVoteButtonColors(button);
-            }
+    if (buttons) {
+        buttons.forEach(element => {
+    
+            voteColumns.forEach(column => {
+                //console.log(column)
+                if (column.getAttribute('id') == element.items_comment_id) {
+    
+                    //console.log(column.querySelector(".voteup"));
+    
+                    var button = (element.positive ==  "1") 
+                    ? column.querySelector(".voteup")
+                    : column.querySelector(".votedown");
+                    //console.log(button);
+                    changeVoteButtonColors(button);
+                }
+            });
+    
         });
-
-    });
+    }
 }
 
 function updateCommentUserResponse() {

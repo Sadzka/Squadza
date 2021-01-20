@@ -9,7 +9,6 @@ class ItemController extends AppController {
     {
         if (!$this->isGet()) {
             return;
-            //TODO
         }
         $this->render('item');
     }
@@ -94,7 +93,7 @@ class ItemController extends AppController {
                     $decoded['value']
                 );
             } else {
-                $ok['err'] = 'Login to vote!';
+                $ok = ['err' => 'Login to vote!'];
             }
             echo json_encode($ok);
         }

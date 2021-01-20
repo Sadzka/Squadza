@@ -56,43 +56,47 @@ form.addEventListener("submit", function (event) {
     
 });
 
-commentSubmit.addEventListener("click", function(event) {
-    event.preventDefault();
+if (commentSubmit) {
+    commentSubmit.addEventListener("click", function(event) {
+        event.preventDefault();
+    
+        if (editbox.value.length > 3) {
+            const id = document.querySelector("#item-id");
+    
+            data = {
+                item_id : id.innerHTML,
+                comment : editbox.value
+            };
+            fetch("/addComment", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(function(response) {
+                response.score = 0;
+                response.comment = editbox.value;
+                response.editable = 1
+                createComment(response);
+                updateStatisticsButtons();
+                editbox.value = "";
+            })
+            .catch(function(error) {
+                console.log(error);
+            });   
+        } 
+    });
+}
 
-    if (editbox.value.length > 3) {
-        const id = document.querySelector("#item-id");
-
-        data = {
-            item_id : id.innerHTML,
-            comment : editbox.value
-        };
-        fetch("/addComment", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(function(response) {
-            response.score = 0;
-            response.comment = editbox.value;
-            response.editable = 1
-            createComment(response);
-            updateStatisticsButtons();
-            editbox.value = "";
-        })
-        .catch(function(error) {
-            console.log(error);
-        });   
-    } 
-});
-
-editbox.addEventListener("keyup", function (event) {
-    const len = this.value.length;
-    const maxlen = this.getAttribute('maxlength');
-    const rem = maxlen - len;
-
-    document.querySelector(".char-remains").innerHTML = "Up to " + maxlen + " characters. " + rem + " characters remaining.";
-})
+if (editbox) {
+    editbox.addEventListener("keyup", function (event) {
+        const len = this.value.length;
+        const maxlen = this.getAttribute('maxlength');
+        const rem = maxlen - len;
+    
+        document.querySelector(".char-remains").innerHTML = "Up to " + maxlen + " characters. " + rem + " characters remaining.";
+    })
+}
 
 function getPermissions(){
     return fetch("/getPermissions", {

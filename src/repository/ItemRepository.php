@@ -19,7 +19,7 @@ class ItemRepository extends Repository
 
         if (!$item) return null;
         
-        $damage = [$item['damage_min'], $item['damage_max']];
+        $damage = ($item['damage_min'] == null) ? null : [$item['damage_min'], $item['damage_max']];
         $sockets = [$item['socket1'], $item['socket2'], $item['socket3']];
         $socketBonus = ['stat' => $item['socket_bonus_type'], 'value' => $item['socket_bonus_value']];
 
@@ -121,12 +121,12 @@ class ItemRepository extends Repository
             $length_rarity = count($args['rarity']);
             $ask = $ask . " AND ( quality = :quality0 ";
 
-            for ($i = 1; $i < $length_slots; $i++) {
+            for ($i = 1; $i < $length_rarity; $i++) {
                 $ask = $ask . " OR quality = :quality" . $i . " ";
             }
             $ask = $ask . " ) ";
         }
-
+        //echo $ask;
         $stmt = $this->database->connect()->prepare($ask);
         /*
                 echo $ask . '<br>';

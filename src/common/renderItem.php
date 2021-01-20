@@ -36,6 +36,7 @@
 
 			<?php
 				$damage = $item->getDamage();
+				
 				if ($damage != null) {
 					echo '<span id="damage">' . $damage[0] . ' - ' . $damage[1] . ' Damage</span>';
 					if ($item->getSpeed() != null){
